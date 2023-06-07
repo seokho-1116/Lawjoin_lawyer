@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToOutline="true">
+    <TextView
+        android:id="@+id/idManagement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="39dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="계정 관리"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black" />
+    <ImageView
+        android:id="@+id/rectangle_2"
+        android:layout_width="380dp"
+        android:layout_height="148dp"
+        app:layout_constraintTop_toBottomOf="@id/idManagement"
+        android:layout_marginTop="13dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_rectangle_background" />
+    <TextView
+        android:id="@+id/reservationDate"
+        android:layout_width="293dp"
+        android:layout_height="32dp"
+        app:layout_constraintTop_toTopOf="@id/rectangle_2"
+        android:layout_marginTop="19dp"
+        app:layout_constraintLeft_toLeftOf="@id/rectangle_2"
+        android:layout_marginLeft="16dp"
+        android:text="예약 일정 몇시부터 몇시 어쩌고"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/reservationLawyer"
+        android:layout_width="81dp"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="@id/rectangle_2"
+        android:layout_marginTop="51dp"
+        app:layout_constraintLeft_toLeftOf="@id/rectangle_2"
+        android:layout_marginLeft="16dp"
+        android:text="변호사 누구"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif" />
+    <Button
+        android:id="@+id/reservationCancelBtn"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/rectangle_2"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf ="@id/rectangle_2"
+        android:layout_marginLeft="35dp"
+        android:text="예약 취소"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"
+        android:backgroundTint="#E16767" />
+    <Button
+        android:id="@+id/reservationChangeBtn"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/rectangle_2"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintRight_toRightOf="@id/rectangle_2"
+        android:layout_marginRight="35dp"
+        android:text="예약 변경"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"
+        android:backgroundTint="#2673D1"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menu_rcView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/rectangle_2"
+        app:layout_constraintBottom_toTopOf="@id/mainBtn"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+    <Button
+        android:id="@+id/mainBtn"
+        android:layout_width="324dp"
+        android:layout_height="59dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="메인 화면"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"
+        android:backgroundTint="#2673D1"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

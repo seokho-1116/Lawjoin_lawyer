@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ly_chat_receiver"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_receiver_profile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintRight_toLeftOf="@id/ly_recv_chat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/msg_message_profile" />
+
+    <LinearLayout
+        android:id="@+id/ly_recv_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_receiver_profile"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_receiver_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:background="@drawable/bg_chat_receiver"
+            android:gravity="start|center_vertical"
+            android:linksClickable="true"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/tv_receiver_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_receiver_is_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:text="@string/msg_chat_is_confirmed"
+            android:textColor="#FFBE3C"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
