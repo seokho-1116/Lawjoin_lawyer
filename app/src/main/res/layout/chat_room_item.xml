@@ -43,6 +43,7 @@
         android:id="@+id/tv_chat_room_notification_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:background="@drawable/ic_chat_notification"
         android:layout_marginEnd="10dp"
         android:textColor="@color/white"

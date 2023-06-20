@@ -10,7 +10,7 @@ object AuthUtils {
     fun getCurrentUser(callback: (AuthUserDto?, Throwable?) -> Unit) {
         val user = Firebase.auth.currentUser
         val currentUser = AuthUserDto(
-            user?.uid,
+                    user?.uid,
             user?.displayName,
             user?.email,
             user?.photoUrl.toString()

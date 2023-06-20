@@ -1,12 +1,12 @@
 package com.example.lawjoin_lawyer.common
 
 import android.app.Application
-import com.example.lawjoin_lawyer.R
+import com.example.lawjoin_lawyer.BuildConfig
 import com.kakao.sdk.common.KakaoSdk
 
 class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        KakaoSdk.init(this, getString(R.string.kakao_native_app_keys))
+        KakaoSdk.init(this, BuildConfig.KAKAO_API_KEY)
     }
 }

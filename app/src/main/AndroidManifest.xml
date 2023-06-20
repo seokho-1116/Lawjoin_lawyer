@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".common.GlobalApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,16 +15,45 @@
         android:theme="@style/Theme.Lawjoin_lawyer"
         tools:targetApi="31">
         <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="oauth"
+                    android:scheme="${KAKAO_API_KEY}" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".reservation.CounselReservationActivity"
+            android:exported="true"/>
+        <activity android:name=".post.CounselPostActivity"
+            android:exported="true"/>
+        <activity android:name=".post.FreePostActivity"
+            android:exported="true"/>
+        <activity android:name=".post.BoardCounselActivity"
+            android:exported="true"/>
+        <activity android:name=".post.BoardFreeActivity"
+            android:exported="true"/>
+        <activity android:name=".post.WritePostActivity"
+            android:exported="true"/>
+        <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Lawjoin_lawyer">
+            android:exported="true">
+        </activity>
+        <activity android:name=".chat.ChatRoomActivity"
+            android:exported="true"/>
+        <activity android:name=".login.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".signup.SignUpLawyerActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -4,13 +4,17 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakao_api_key = properties.getProperty('kakao_api_key')
+
 android {
     namespace 'com.example.lawjoin_lawyer'
     compileSdk 33
 
     defaultConfig {
         applicationId "com.example.lawjoin_lawyer"
-        minSdk 29
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -19,6 +23,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
+        manifestPlaceholders = [KAKAO_API_KEY: kakao_api_key]
     }
 
     buildTypes {
@@ -34,9 +40,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        compose true
-    }
     viewBinding {
         enabled=true
     }
@@ -47,9 +50,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     //kakao
     implementation "com.kakao.sdk:v2-user:2.13.0"
 
+    implementation 'com.google.firebase:firebase-storage-ktx:20.2.0'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -58,6 +63,7 @@ dependencies {
     //google
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 

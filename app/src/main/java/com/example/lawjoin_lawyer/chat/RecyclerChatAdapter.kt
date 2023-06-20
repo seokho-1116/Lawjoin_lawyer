@@ -9,26 +9,29 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.lawjoin.R
-import com.example.lawjoin.common.AuthUtils
-import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.model.ChatRoom
-import com.example.lawjoin.data.model.Message
-import com.example.lawjoin.data.repository.ChatRoomRepository
-import com.example.lawjoin.data.repository.LawyerRepository
-import com.example.lawjoin.databinding.ChatMessageSenderBinding
-import com.example.lawjoin.databinding.ChatMessageReceiverBinding
-import com.google.firebase.storage.FirebaseStorage
+import com.example.lawjoin_lawyer.data.repository.ChatRoomRepository
+import com.example.lawjoin_lawyer.R
+import com.example.lawjoin_lawyer.common.AuthUtils
+import com.example.lawjoin_lawyer.data.model.AuthUserDto
+import com.example.lawjoin_lawyer.data.model.Message
+import com.example.lawjoin_lawyer.data.model.UserDto
+import com.example.lawjoin_lawyer.data.repository.UserRepository
+import com.example.lawjoin_lawyer.databinding.ChatMessageReceiverBinding
+import com.example.lawjoin_lawyer.databinding.ChatMessageSenderBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)
-class RecyclerChatAdapter(private val context: Context, private var chatRoomKey: String, ) :
+class RecyclerChatAdapter(private val context: Context,
+                          private val receiverId: String,
+                          private var chatRoomKey: String) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val storage = FirebaseStorage.getInstance()
-    private val lawyerRepository = LawyerRepository.getInstance()
+    private val userRepository = UserRepository.getInstance()
     private val chatRoomRepository = ChatRoomRepository.getInstance()
 
     private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
@@ -49,8 +52,11 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
     }
 
     private fun getMessages() {
-        chatRoomRepository.findUserChatRoomByKey(currentUser.uid!!, chatRoomKey) {
-            val messagesData = it.child("messages")
+        chatRoomRepository.findUserChatRoomByKey(
+            receiverId,
+            chatRoomKey
+        ) { chatRoomSnapshot ->
+            val messagesData = chatRoomSnapshot.child("messages")
             val newMessages = mutableListOf<Message>()
             val newMessageKeys = mutableListOf<String>()
 
@@ -76,6 +82,26 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
+
+            newMessageKeys.forEachIndexed { index, messageKey ->
+                val messageRef = messagesData.child(messageKey).child("confirmed").ref
+                messageRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val confirmedValue = snapshot.value as Boolean
+                        if (confirmedValue) {
+                            // Update the 'confirmed' property of the message in the local list
+                            newMessages[index].confirmed = true
+
+                            // Notify the adapter to update the UI
+                            notifyItemChanged(index)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle onCancelled event if necessary
+                    }
+                })
+            }
         }
     }
 
@@ -127,39 +153,19 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
             setupMessageProfile(position)
 
-            if (messages[position].senderUid != "GPT" && messages[position].senderUid != "BOT") {
-                if (messages[position].confirmed)
-                    isShown.visibility = View.GONE
-                else
-                    isShown.visibility = View.VISIBLE
-                setShown(position)
+            if (messages[position].confirmed) {
+                isShown.visibility = View.GONE
+            } else {
+                isShown.visibility = View.VISIBLE
             }
 
-            when (messages[position].senderUid) {
-                "GPT" -> {
-                    retrieveProfileUrl("profile/GPT.png") { url ->
-                        setProfileAndConfigureScreen(this, url)
-                    }
-                }
-                "BOT" -> {
-                    retrieveProfileUrl("profile/BOT.png") { url ->
-                        setProfileAndConfigureScreen(this, url)
-                    }
-                }
-                else -> {
-                    lawyerRepository.findLawyerById(messages[position].senderUid) {
-                        setProfileAndConfigureScreen(this, it.profile_url)
-                    }
-                }
-            }
-        }
+            setShown(position)
 
-        private fun retrieveProfileUrl(path: String, callback: (String) -> Unit) {
-            storage.reference.child(path)
-                .downloadUrl.addOnSuccessListener { uri ->
-                    val url = uri.toString()
-                    callback(url)
-                }
+
+            userRepository.findUser(messages[position].senderUid) {
+                val user = it.getValue(UserDto::class.java)!!
+                setProfileAndConfigureScreen(this, user.profile!!)
+            }
         }
 
         private fun setProfileAndConfigureScreen(holder: ChatMessageReceiverViewHolder, url: String) {
@@ -191,11 +197,10 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
             txtDate.text = getDateText(ZonedDateTime.parse(messages[position].sendDate, formatter))
 
-            if (messages[position].senderUid != "GPT" && messages[position].senderUid != "BOT") {
-                if (messages[position].confirmed)
-                    isShown.visibility = View.GONE
-                else
-                    isShown.visibility = View.VISIBLE
+            if (messages[position].confirmed) {
+                isShown.visibility = View.GONE
+            } else {
+                isShown.visibility = View.VISIBLE
             }
         }
     }
@@ -206,9 +211,11 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
         val dateText = StringBuilder()
         val timeFormat = "%02d:%02d"
+        val dateFormat = "%d-%s-%d"
 
         val hour = messageTime.hour
         val minute = messageTime.minute
+        dateText.appendLine(dateFormat.format(messageTime.year, messageTime.monthValue, messageTime.dayOfMonth))
         if (hour > 11) {
             dateText.append("오후 ")
             dateText.append(timeFormat.format(hour - 12, hour))
@@ -220,6 +227,6 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
     }
 
     private fun setShown(position: Int) {
-        chatRoomRepository.updateMessageConfirm(currentUser.uid!!, chatRoomKey, messageKeys[position])
+        chatRoomRepository.updateMessageConfirm(receiverId, chatRoomKey, messageKeys[position])
     }
 }

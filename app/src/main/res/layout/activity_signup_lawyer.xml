@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:id="@+id/sv_lawyer_input_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
+            android:id="@+id/ly_under_sv"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edt_lawyer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/msg_lawyer_input_name"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_office_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/msg_input_lawyer_office"
+                android:layout_marginTop="10dp"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_office_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/msg_input_lawyer_office_phone"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_office_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_office_location"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_office_opening_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_lawyer_office_open"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_office_closing_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_lawyer_office_close"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_basic_counsel_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_basic_counsel_time"
+                android:lines="1"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/hint_lawyer_introduce"
+                android:lines="8" />
+
+            <EditText
+                android:id="@+id/edt_lawyer_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/edt_lawyer_category"
+                android:lines="5"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_career"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/msg_input_lawyer_career"
+                android:lines="10"/>
+
+            <EditText
+                android:id="@+id/edt_lawyer_certificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lines="10"
+                android:hint="@string/msg_input_lawyer_certificate"
+                android:inputType="textMultiLine" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btn_google_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
+            <Button
+                android:id="@+id/btn_kakao_login"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kakao_login_medium_wide"
+                app:rippleColor="#2673D1" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/sv_personal_info_protect_policy"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_personal_info_protect_policy"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/personal_information_protect_policy"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <CheckBox
+                android:id="@+id/cb_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_agree"
+                android:layout_marginEnd="30dp"/>
+
+            <Button
+                android:id="@+id/btn_start_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bg_write_post"
+                android:text="@string/msg_post_data"
+                android:padding="5dp"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

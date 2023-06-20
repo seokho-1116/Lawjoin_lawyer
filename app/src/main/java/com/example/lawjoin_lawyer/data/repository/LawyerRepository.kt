@@ -1,10 +1,10 @@
-package com.example.lawjoin.data.repository
+package com.example.lawjoin_lawyer.data.repository
 
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.lawjoin.data.model.Lawyer
-import com.google.android.gms.tasks.Task
+import com.example.lawjoin_lawyer.data.model.Lawyer
+import com.example.lawjoin_lawyer.data.model.LawyerSingUpInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -25,13 +25,13 @@ class LawyerRepository private constructor() {
         }
     }
 
-    fun findLawyerById(uid: String, callback: (Lawyer) -> Unit) {
+    fun findLawyerById(uid: String, callback: (Lawyer?) -> Unit) {
         databaseReference
             .child("lawyer")
             .child(uid)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val lawyer = snapshot.getValue(Lawyer::class.java)!!
+                    val lawyer = snapshot.getValue(Lawyer::class.java)
                     callback(lawyer)
                 }
                 override fun onCancelled(error: DatabaseError) {
@@ -40,42 +40,25 @@ class LawyerRepository private constructor() {
             })
     }
 
-    fun findAllLawyers(callback: (List<Lawyer>) -> Unit){
+    fun saveWaitList(lawyer: LawyerSingUpInfo, callback: () -> Unit) {
         databaseReference
-            .child("lawyer")
+            .child("lawyer_wait")
+            .child(lawyer.uid).setValue(lawyer).addOnSuccessListener {
+                callback()
+            }
+    }
+
+    fun findWaitLawyerById(uid: String, callback: (Lawyer?) -> Unit) {
+        databaseReference
+            .child("lawyer_wait")
+            .child(uid)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val lawyerList = mutableListOf<Lawyer>()
-                    for (data in snapshot.children) {
-                        val lawyer = data.getValue(Lawyer::class.java)
-                        if (lawyer != null) {
-                            lawyerList.add(lawyer)
-                        }
-                    }
-                    callback(lawyerList)
+                    val lawyer = snapshot.getValue(Lawyer::class.java)
+                    callback(lawyer)
                 }
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("FirebaseQuery", "Query canceled or encountered an error: ${error.message}")
-                }
-            })
-    }
-
-    fun saveLawyer(uid: String, callback: (DatabaseReference) -> Task<Void>) {
-        callback(databaseReference.child("lawyer").child(uid))
-    }
-
-    fun updateUnavailableTime(id: String, time: String) {
-        databaseReference
-            .child("lawyer")
-            .child(id)
-            .child("unavailableTime").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val itemCount = dataSnapshot.childrenCount.toInt()
-                    dataSnapshot.ref
-                        .child(itemCount.toString())
-                        .setValue(time)
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
                 }
             })
     }
