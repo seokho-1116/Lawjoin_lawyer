@@ -30,6 +30,7 @@ render.experimental.xml
 app/google-services.json
 
 # Android Profiling
+/keystore
 *.hprof
 
 api_key.xml

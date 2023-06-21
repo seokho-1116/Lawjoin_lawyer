@@ -26,8 +26,9 @@
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:id="@+id/tv_receiver_text"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="150dp"
             android:autoLink="web"
             android:background="@drawable/bg_chat_receiver"
             android:gravity="start|center_vertical"

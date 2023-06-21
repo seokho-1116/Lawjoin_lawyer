@@ -7,11 +7,24 @@ plugins {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def kakao_api_key = properties.getProperty('kakao_api_key')
+def keyAli = properties.getProperty("keyAlias")
+def storePasswd = properties.getProperty("storePassword")
+def keyPasswd = properties.getProperty("keyPassword")
 
 android {
     namespace 'com.example.lawjoin_lawyer'
     compileSdk 33
-
+    signingConfigs {
+        debug {
+            storeFile file("../keystore/debug.keystore")
+        }
+        release {
+            storeFile file('C:\\Users\\82107\\AndroidStudioProjects\\LawJoin\\keystore\\key.jks')
+            storePassword storePasswd
+            keyAlias keyAli
+            keyPassword keyPasswd
+        }
+    }
     defaultConfig {
         applicationId "com.example.lawjoin_lawyer"
         minSdk 21
@@ -28,9 +41,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

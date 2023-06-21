@@ -17,5 +17,6 @@ data class Post(
     val createTime: String = ZonedDateTime.now(ZoneId.of("UTC")).toString(),
     val modifyTime: String = "",
     val isAnonymous: Boolean = false,
-    val recommendationCount: Int = 0
+    val recommendationCount: Int = 0,
+    var isCounsel: Boolean = false
 ) : Serializable

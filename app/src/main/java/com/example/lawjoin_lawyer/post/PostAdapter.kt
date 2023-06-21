@@ -12,7 +12,6 @@ import com.example.lawjoin_lawyer.databinding.PostItemBinding
 import kotlin.collections.ArrayList
 
 class PostAdapter(var posts: List<Post>,
-                  var isCounsel: Boolean,
                   var context: Context)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     var filteredPostList: List<Post> = listOf()
@@ -23,12 +22,12 @@ class PostAdapter(var posts: List<Post>,
             title.text = filteredPostList[position].title
             itemView.setOnClickListener {
                 filteredPostList[position].id
-                val intent = if (isCounsel) {
+                val intent = if (filteredPostList[position].isCounsel) {
                     Intent(context, CounselPostActivity::class.java)
                 } else {
                     Intent(context, FreePostActivity::class.java)
                 }
-                intent.putExtra("isCounsel", isCounsel)
+                intent.putExtra("isCounsel", filteredPostList[position].isCounsel)
                 intent.putExtra("postId", filteredPostList[position].id)
                 context.startActivity(intent)
             }
