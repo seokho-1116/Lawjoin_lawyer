@@ -9,12 +9,13 @@
     <string name="msg_try_login">변호사로 시작하기</string>
     <string name="msg_no_account">계정이 없으신가요?</string>
     <string name="msg_signup">회원가입</string>
-    <string name="src_main_title">법조인 Chat</string>
+    <string name="src_main_title">법Join 변호사용 Chat</string>
     <string name="msg_message_profile">메시지 프로필</string>
     <string name="msg_chat_is_confirmed">1</string>
     <string name="write_write">글쓰기</string>
     <string name="counsel_board_title">상담 게시판</string>
     <string name="free_board_title">자유 게시판</string>
+    <string name="app_name2">법Join</string>
 
     <string name="msg_chat">채팅</string>
     <string name="msg_lawyer">변호사</string>

@@ -39,10 +39,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeListener() {
-        binding.btnChatProfile.setOnClickListener {
-            //startActivity(Intent(this, AccountManagementActivity::class.java))
-        }
-
         binding.ibMainReservation.setOnClickListener {
             startActivity(Intent(this, CounselReservationActivity::class.java))
         }
